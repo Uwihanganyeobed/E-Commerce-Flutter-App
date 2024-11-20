@@ -30,7 +30,9 @@ class MyApp extends StatelessWidget {
           '/contact': (context) => const ContactPage(),
           '/profile': (context) => const ProfilePage(),
           '/auth': (context) => const AuthPage(),
-          '/cart': (context) => const CartPage(cartItems: [],),
+          '/cart': (context) => const CartPage(
+                cartItems: [],
+              ),
         },
       ),
     );
