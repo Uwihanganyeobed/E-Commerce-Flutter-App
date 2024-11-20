@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:e_commercer/models/product.dart';
+import 'package:e_commercer/data/products_data.dart';
+import 'mon_product.dart';
 
 class ShopPage extends StatelessWidget {
   const ShopPage({super.key});
@@ -17,41 +20,64 @@ class ShopPage extends StatelessWidget {
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
         ),
-        itemCount: 10,
+        itemCount: productsData.length,
         itemBuilder: (context, index) {
-          return Card(
-            elevation: 5,
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    color: Colors.grey[300],
-                    child: Center(
-                      child: Icon(Icons.image, size: 50, color: Colors.grey[600]),
-                    ),
+          final product = Product(
+            id: productsData[index]['id'],
+            name: productsData[index]['name'],
+            price: productsData[index]['price'],
+            imageUrl: productsData[index]['imageUrl'],
+            description: productsData[index]['description'],
+          );
+
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MonProduct(
+                    productId: product.id,
+                    productName: product.name,
+                    price: product.price,
+                    imageUrl: product.imageUrl,
+                    description: product.description,
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Product ${index + 1}',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text('\$${(index + 1) * 10}.99'),
-                      ],
+              );
+            },
+            child: Card(
+              elevation: 5,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Image.network(
+                      // Using Image.network assuming your products use URLs
+                      product.imageUrl,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            product.name,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text('\$${product.price.toStringAsFixed(2)}'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
       ),
     );
   }
-} 
+}

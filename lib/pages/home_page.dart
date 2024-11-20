@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'mon_product.dart';
 import 'package:e_commercer/models/product.dart';
+import 'package:e_commercer/data/products_data.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,34 +14,39 @@ class HomePage extends StatelessWidget {
       ),
       drawer: Drawer(
         child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 10),
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.white,
                 image: DecorationImage(
                   image: NetworkImage(
-                    'https://img.freepik.com/free-vector/shopping-time-banner-with-realistic-map-cart-gift-bags-vector-illustration_548887-120.jpg',
+                    'https://i.imgur.com/4y4QPNl.jpeg',
                   ),
                   fit: BoxFit.cover,
-                  opacity: 0.5,
+                  opacity: 0.9,
                 ),
               ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  shadows: [
-                    Shadow(
-                      color: Color.fromARGB(171, 141, 97, 97),
-                      blurRadius: 2,
-                      offset: Offset(1, 1),
-                    ),
-                  ],
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(10, 80, 10, 10),
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black,
+                        blurRadius: 2,
+                        offset: Offset(1, 1),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
+            const SizedBox(height: 10),
             ListTile(
               leading: const Icon(Icons.home, color: Colors.green),
               title: const Text('Home'),
@@ -48,6 +54,7 @@ class HomePage extends StatelessWidget {
                 Navigator.pushNamed(context, '/');
               },
             ),
+            const SizedBox(height: 10),
             ListTile(
               leading: const Icon(Icons.shopping_cart, color: Colors.green),
               title: const Text('Shop'),
@@ -55,6 +62,7 @@ class HomePage extends StatelessWidget {
                 Navigator.pushNamed(context, '/shop');
               },
             ),
+            const SizedBox(height: 10),
             ListTile(
               leading: const Icon(Icons.info, color: Colors.green),
               title: const Text('About Us'),
@@ -62,6 +70,7 @@ class HomePage extends StatelessWidget {
                 Navigator.pushNamed(context, '/about');
               },
             ),
+            const SizedBox(height: 10),
             ListTile(
               leading: const Icon(Icons.contact_mail, color: Colors.green),
               title: const Text('Contact'),
@@ -69,6 +78,7 @@ class HomePage extends StatelessWidget {
                 Navigator.pushNamed(context, '/contact');
               },
             ),
+            const SizedBox(height: 10),
             ListTile(
               leading: const Icon(Icons.person, color: Colors.green),
               title: const Text('Profile'),
@@ -76,12 +86,13 @@ class HomePage extends StatelessWidget {
                 Navigator.pushNamed(context, '/profile');
               },
             ),
+            const SizedBox(height: 10),
             const Divider(thickness: 1),
+            const SizedBox(height: 10),
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
               title: const Text('Logout'),
               onTap: () {
-                // Add logout logic here
                 Navigator.pushNamed(context, '/auth');
               },
             ),
@@ -116,14 +127,14 @@ class HomePage extends StatelessWidget {
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                 ),
-                itemCount: 6,
+                itemCount: productsData.length,
                 itemBuilder: (context, index) {
                   final product = Product(
-                    id: 'product-$index',
-                    name: 'Product ${index + 1}',
-                    price: 9.99,
-                    imageUrl: 'https://example.com/image.jpg',
-                    description: 'Product description',
+                    id: productsData[index]['id'],
+                    name: productsData[index]['name'],
+                    price: productsData[index]['price'],
+                    imageUrl: productsData[index]['imageUrl'],
+                    description: productsData[index]['description'],
                   );
 
                   return MouseRegion(
@@ -144,16 +155,37 @@ class HomePage extends StatelessWidget {
                         );
                       },
                       child: Card(
-                        color: Colors.blueAccent,
                         elevation: 5,
-                        child: Center(
-                          child: Text(
-                            'Product ${index + 1}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: Image.network(
+                                product.imageUrl,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    product.name,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    '\$${product.price.toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
