@@ -1,5 +1,4 @@
 import 'package:e_commercer/pages/cart_page.dart';
-import 'package:provider/provider.dart';
 import 'package:e_commercer/providers/cart_provider.dart';
 import 'package:e_commercer/pages/auth_page.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'pages/shop_page.dart';
 import 'pages/about_page.dart';
 import 'pages/contact_page.dart';
 import 'pages/profile_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
